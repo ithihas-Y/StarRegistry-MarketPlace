@@ -52,6 +52,12 @@ contract StarRegistry is ERC721{
         }
     }
 
+    function buy(uint256 id) external {
+        require(_exists(id) && IERC20(tokenAddress).transferFrom(msg.sender,ownerOf(id),tokenPriceinWEI[id]));
+        safeTransferFrom(ownerOf(id),msg.sender,id);
+
+    }
+
     function acceptBid(uint256 id) external {
         require(msg.sender == ownerOf(id));
         require(IERC20(tokenAddress).transferFrom(msg.sender,ownerOf(id),tokenPriceinWEI[id]));
