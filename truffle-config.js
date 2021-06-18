@@ -22,7 +22,8 @@
 // const infuraKey = "fj4jll3k.....";
 //
 // const fs = require('fs');
-// const mnemonic = fs.readFileSync(".secret").toString().trim();
+const mnemonic = "valve inhale fee front agent bulk wait snake fragile work inherit escape"
+const HDWalletProvider = require('@truffle/hdwallet-provider');
 
 module.exports = {
   /**
@@ -35,7 +36,46 @@ module.exports = {
    * $ truffle test --network <network-name>
    */
 
+   
   networks: {
+
+    development: {
+      host: "127.0.0.1",     // Localhost (default: none)
+      port: 8545,            // Standard BSC port (default: none)
+      network_id: "*",       // Any network (default: none)
+    },
+    kovan:{
+      provider :()=> new HDWalletProvider(mnemonic,"https://kovan.infura.io/v3/b3866b1857994f17b06df9cd3d915610"),
+      network_id:42,
+      confirmations:2,
+      timeoutBlocks:200,
+      skipDryRun:true
+    },
+    testnet: {
+      provider: () => new HDWalletProvider(mnemonic, `https://data-seed-prebsc-1-s1.binance.org:8545`),
+      network_id: 97,
+      confirmations: 2,
+      timeoutBlocks: 200,
+      skipDryRun: true
+    },
+    polygon:{
+      provider:()=> new HDWalletProvider(mnemonic,`https://rpc-mainnet.maticvigil.com/`),
+      network_id:137,
+      confirmations:10,
+      timeoutBlocks:200,
+      skipDryRun:false,
+      gas:8500000,
+      gasPrice:10000000000,
+    },
+    bsc: {
+      provider: () => new HDWalletProvider(mnemonic, `https://bsc-dataseed1.binance.org`),
+      network_id: 56,
+      confirmations: 10,
+      timeoutBlocks: 200,
+      skipDryRun: false,
+      gas: 8500000,           // Gas sent with each transaction (default: ~6700000)
+      gasPrice: 10000000000,  // 20 gwei (in wei) (default: 100 gwei)
+    },
     // Useful for testing. The `development` name is special - truffle uses it by default
     // if it's defined here and no other network is specified at the command line.
     // You should run a client (like ganache-cli, geth or parity) in a separate terminal

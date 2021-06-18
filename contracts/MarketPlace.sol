@@ -24,9 +24,10 @@ contract StarRegistry is ERC721{
 
     mapping(address=>bool) private approvedMinters;
 
-    constructor(address _tokenAddress) ERC721("Star Registry","STR") public{
+    constructor(address _tokenAddress,string memory baseURI) ERC721("Star Registry","STR") public{
         owner = msg.sender;
         tokenAddress = _tokenAddress;
+        _setBaseURI(baseURI);
     }
 
     function approveMinter(address minter) public  {
@@ -34,11 +35,11 @@ contract StarRegistry is ERC721{
         approvedMinters[minter] = true;
     }
 
-    function createNFT(uint256 id,uint256 price) external {
+    function createNFT(uint256 id,uint256 price,string memory uri) external {
         require(msg.sender==owner || approvedMinters[msg.sender] == true,"Not approved Minter" );
         _safeMint(msg.sender, id);
         tokenPriceinWEI[id] = price;
-        
+        _setTokenURI(id,uri);
     }
 
     function bid(uint256 id,uint256 bidAmt) public {
